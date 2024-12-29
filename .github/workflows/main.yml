@@ -22,9 +22,15 @@ jobs:
       - name: Set up Railway token
         run: echo "RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}" >> $GITHUB_ENV
 
+      - name: Login to Railway
+        run: railway login --token $RAILWAY_TOKEN
+
+      - name: List services (optional, untuk debugging)
+        run: railway services
+
       - name: Deploy to Railway
         run: |
           # Pastikan Railway token sudah tersedia
           echo $RAILWAY_TOKEN
           # Deploy project ke Railway dengan menentukan nama layanan
-          railway up --service backend
+          railway up --service backend # Gantilah 'backend' dengan nama layanan yang sesuai
