@@ -24,4 +24,4 @@ jobs:
           railway --version
 
           # Deploy project
-          railway up --auto-accept
+          railway up
