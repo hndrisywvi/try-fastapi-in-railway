@@ -23,5 +23,5 @@ jobs:
           # Verifikasi versi Railway CLI
           railway --version
 
-          # Deploy project
-          railway up -- --auto-accept
+          # Deploy project ke layanan tertentu
+          railway up --service backend
