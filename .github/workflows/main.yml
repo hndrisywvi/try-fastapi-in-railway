@@ -26,5 +26,5 @@ jobs:
         run: |
           # Pastikan Railway token sudah tersedia
           echo $RAILWAY_TOKEN
-          # Deploy project ke Railway (tanpa --service jika tidak diperlukan)
-          railway up
+          # Deploy project ke Railway dengan menentukan nama layanan
+          railway up --service backend
