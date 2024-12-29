@@ -3,7 +3,7 @@ name: Deploy to Railway
 on:
   push:
     branches:
-      - main
+      - main # Sesuaikan dengan branch utama Anda, misalnya 'main' atau 'master'
 
 jobs:
   deploy:
@@ -13,17 +13,15 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Install Railway CLI
-        run: |
-          # Install Railway CLI
-          curl -fsSL https://railway.app/install.sh | sh
-
-          # Verifikasi Railway CLI terinstal
-          railway --help
-
       - name: Deploy to Railway
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
+          # Install Railway CLI
+          curl -fsSL https://railway.app/install.sh | sh
+
+          # Verifikasi versi Railway CLI
+          railway --version
+
           # Deploy project
           railway up --auto-accept
