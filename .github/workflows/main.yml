@@ -24,4 +24,4 @@ jobs:
           railway --version
 
           # Deploy project ke layanan tertentu
-          railway up --service backend
+          railway up --service frontend
