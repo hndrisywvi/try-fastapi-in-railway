@@ -13,15 +13,18 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Deploy to Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
+      - name: Install Railway CLI
         run: |
-          # Install Railway CLI
           curl -fsSL https://railway.app/install.sh | sh
-
-          # Verifikasi versi Railway CLI
+          # Verifikasi instalasi Railway CLI
           railway --version
 
-          # Deploy project ke layanan tertentu
-          railway up --service frontend
+      - name: Set up Railway token
+        run: echo "RAILWAY_TOKEN=${{ secrets.RAILWAY_TOKEN }}" >> $GITHUB_ENV
+
+      - name: Deploy to Railway
+        run: |
+          # Pastikan Railway token sudah tersedia
+          echo $RAILWAY_TOKEN
+          # Deploy project ke Railway (tanpa --service jika tidak diperlukan)
+          railway up
