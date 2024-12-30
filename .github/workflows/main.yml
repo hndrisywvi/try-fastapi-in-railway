@@ -19,22 +19,26 @@ jobs:
           # Verifikasi instalasi Railway CLI
           railway --version
 
-      - name: Login to Railway
+      - name: Set Railway token
         env:
           RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          # Login ke Railway menggunakan token rahasia
-          echo $RAILWAY_TOKEN | railway login --token
+        run: echo "RAILWAY_TOKEN is set."
 
       - name: Link Railway project
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           # Menautkan repository GitHub dengan proyek Railway
           railway link
 
       - name: Verify project status (optional)
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: railway status
 
       - name: Deploy to Railway
+        env:
+          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
         run: |
           # Deploy project ke Railway
           railway up
