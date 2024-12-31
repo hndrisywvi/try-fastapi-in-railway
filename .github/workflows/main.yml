@@ -2,43 +2,15 @@ name: Deploy to Railway
 
 on:
   push:
-    branches:
-      - main # Sesuaikan dengan branch utama Anda, misalnya 'main' atau 'master'
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
+    container: ghcr.io/railwayapp/cli:latest
+    env:
+      SVC_ID: my-service-id
+      RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v3
-
-      - name: Install Railway CLI
-        run: |
-          curl -fsSL https://railway.app/install.sh | sh
-          # Verifikasi instalasi Railway CLI
-          railway --version
-
-      - name: Set Railway token
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: echo "RAILWAY_TOKEN is set."
-
-      - name: Link Railway project
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          # Menautkan repository GitHub dengan proyek Railway
-          railway link
-
-      - name: Verify project status (optional)
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: railway status
-
-      - name: Deploy to Railway
-        env:
-          RAILWAY_TOKEN: ${{ secrets.RAILWAY_TOKEN }}
-        run: |
-          # Deploy project ke Railway
-          railway up
+      - uses: actions/checkout@v3
+      - run: railway up --service=${{ env.SVC_ID }}
