@@ -27,3 +27,18 @@ def read_user(user_id: int, db: Session = Depends(get_db)):
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     return db_user
+
+@app.put("/users/{user_id}/email", response_model=schemas.User)
+def update_email(user_id: int, new_email: str, db: Session = Depends(get_db)):
+    # Cek apakah email baru sudah terdaftar
+    existing_user = crud.get_user_by_email(db, email=new_email)
+    if existing_user:
+        raise HTTPException(status_code=400, detail="Email already in use")
+
+    # Update email
+    updated_user = crud.update_user_email(db, user_id=user_id, new_email=new_email)
+    if not updated_user:
+        raise HTTPException(status_code=404, detail="User not found")
+
+    return updated_user
+

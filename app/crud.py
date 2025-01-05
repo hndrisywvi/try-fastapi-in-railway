@@ -17,3 +17,13 @@ def create_user(db: Session, user: schemas.UserCreate):
     db.commit()
     db.refresh(db_user)
     return db_user
+
+def update_user_email(db: Session, user_id: int, new_email: str):
+    user = db.query(models.User).filter(models.User.id == user_id).first()
+    if user:
+        user.email = new_email
+        db.commit()
+        db.refresh(user)
+        return user
+    return None
+
